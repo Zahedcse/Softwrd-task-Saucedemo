@@ -1,10 +1,3 @@
-/**
- * Application-level constants.
- *
- * These never change between environments (routes, sort values, tax rate, error strings).
- * Separating them from env.config.ts prevents accidental env-specific overrides.
- */
-
 export const APP_ROUTES = {
   HOME: '/',
   INVENTORY: '/inventory.html',
@@ -21,7 +14,6 @@ export const SORT_OPTIONS = {
   PRICE_HIGH_LOW: 'hilo',
 } as const;
 
-/** SauceDemo applies a fixed 8% tax rate */
 export const TAX_RATE = 0.08;
 
 export const PRODUCTS = {

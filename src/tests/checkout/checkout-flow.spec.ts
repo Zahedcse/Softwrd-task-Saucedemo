@@ -13,9 +13,7 @@ import { assertOrderMath } from '../../utils/custom-assertions';
 import checkoutData from '../../fixtures/checkout.json';
 
 test.describe('Checkout Flow', () => {
-  // All checkout tests start authenticated
   test.beforeEach(async ({ authenticatedPage }) => {
-    // authenticatedPage fixture logs in as standard_user on /inventory.html
   });
 
   test.describe('Successful Purchase', () => {
@@ -36,22 +34,17 @@ test.describe('Checkout Flow', () => {
           tags: ['smoke', 'regression', 'e2e'],
         });
 
-        // Add item
         await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
         await inventoryPage.goToCart();
 
-        // Verify item in cart
         await cartPage.assertItemInCart(PRODUCTS.SAUCE_LABS_BACKPACK.name);
         await cartPage.proceedToCheckout();
 
-        // Fill info
         await checkoutStepOnePage.fillAndContinue(checkoutData.validCustomer);
 
-        // Review order
         await checkoutStepTwoPage.assertOnStepTwo();
         await checkoutStepTwoPage.finish();
 
-        // Confirm
         await checkoutCompletePage.assertOrderConfirmed();
       },
     );
@@ -119,14 +112,12 @@ test.describe('Checkout Flow', () => {
         await checkoutCompletePage.assertOnCompletePage();
         await checkoutCompletePage.goBackHome();
 
-        // Cart badge should be gone after order
         await expect(inventoryPage.cartBadge).toBeHidden();
       },
     );
   });
 
   test.describe('Checkout Validation — Required Fields', () => {
-    // Set up cart and navigate to step one before each validation test
     test.beforeEach(async ({ authenticatedPage, inventoryPage, cartPage }) => {
       await inventoryPage.assertInventoryLoaded();
       await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
@@ -205,7 +196,6 @@ test.describe('Checkout Flow', () => {
         await checkoutStepOnePage.fillCheckoutInfo(checkoutData.allFieldsEmpty);
         await checkoutStepOnePage.clickContinue();
 
-        // SauceDemo validates first name first
         await checkoutStepOnePage.assertErrorMessage(ERROR_MESSAGES.CHECKOUT.MISSING_FIRST_NAME);
         await checkoutStepOnePage.assertStillOnStepOne();
       },
@@ -293,7 +283,6 @@ test.describe('Checkout Flow', () => {
           total,
         });
 
-        // Allow floating point tolerance
         expect(Math.abs(itemTotal - expectedSubtotal)).toBeLessThan(0.01);
         assertOrderMath(itemTotal, tax, total);
       },

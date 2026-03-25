@@ -1,10 +1,3 @@
-/**
- * Runtime environment configuration.
- *
- * Single point of access for all process.env values.
- * Everything else in the codebase imports from here — never touches process.env directly.
- */
-
 function requireEnv(key: string, fallback?: string): string {
   const value = process.env[key] ?? fallback;
   if (value === undefined) {

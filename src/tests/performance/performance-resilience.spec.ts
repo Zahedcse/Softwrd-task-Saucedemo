@@ -12,11 +12,6 @@ import checkoutData from '../../fixtures/checkout.json';
 
 test.describe('Performance & Resilience', () => {
   test.describe('performance_glitch_user', () => {
-    /**
-     * performance_glitch_user takes significantly longer to respond.
-     * Tests use smart waits (waitFor with extended timeout) — never Thread.sleep.
-     */
-
     test(
       'should complete login successfully despite response delay @smoke @regression @performance',
       async ({ loginPage, inventoryPage, page }) => {
@@ -37,7 +32,6 @@ test.describe('Performance & Resilience', () => {
             envConfig.users.performanceGlitch.username,
             envConfig.users.performanceGlitch.password,
           );
-          // Smart wait: wait for URL change with extended timeout
           await waitForNavigationWithGlitchTimeout(page, `**${APP_ROUTES.INVENTORY}`, glitchTimeout);
         });
 
@@ -47,7 +41,6 @@ test.describe('Performance & Resilience', () => {
           withinTimeout: loginDurationMs <= glitchTimeout,
         });
 
-        // Must reach inventory within the extended timeout
         await waitForWithGlitchTimeout(inventoryPage.inventoryContainer, glitchTimeout);
         await inventoryPage.assertInventoryLoaded();
 
@@ -105,7 +98,6 @@ test.describe('Performance & Resilience', () => {
 
         const [, addDurationMs] = await measureTime(async () => {
           await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
-          // Smart wait: wait for badge to appear rather than sleeping
           await waitForWithGlitchTimeout(inventoryPage.cartBadge, glitchTimeout);
         });
 
@@ -120,13 +112,6 @@ test.describe('Performance & Resilience', () => {
   });
 
   test.describe('error_user Failure States', () => {
-    /**
-     * error_user can log in but certain actions trigger errors.
-     * These tests document which actions fail and assert the correct error state.
-     * Rather than skipping, we record the actual behavior so the report acts as
-     * a living specification of known defects.
-     */
-
     test.beforeEach(async ({ loginPage }) => {
       await loginPage.goto();
       await loginPage.loginAndWaitForInventory(
@@ -169,7 +154,6 @@ test.describe('Performance & Resilience', () => {
         await checkoutStepOnePage.fillCheckoutInfo(checkoutData.validCustomer);
         await checkoutStepOnePage.clickContinue();
 
-        // error_user: form submission triggers an error state or stays on step one
         const currentUrl = page.url();
         await attachJson('error_user checkout step one behavior', {
           submittedData: checkoutData.validCustomer,
@@ -177,7 +161,6 @@ test.describe('Performance & Resilience', () => {
           note: 'error_user is expected to fail on checkout form submission',
         });
 
-        // The key assertion: must NOT reach checkout complete
         expect(currentUrl).not.toContain(APP_ROUTES.CHECKOUT_COMPLETE);
       },
     );
@@ -199,7 +182,6 @@ test.describe('Performance & Resilience', () => {
         const countBefore = await cartPage.getCartItemCount();
         expect(countBefore).toBe(1);
 
-        // Attempt removal — for error_user this may silently fail
         await cartPage.removeItem(PRODUCTS.SAUCE_LABS_BACKPACK.id);
 
         const countAfter = await cartPage.getCartItemCount();
@@ -211,8 +193,6 @@ test.describe('Performance & Resilience', () => {
           note: 'error_user remove action is a known defect — item may not be removed',
         });
 
-        // Document: we do not assert the item IS gone — that is the defect
-        // We assert the count is either 0 (fixed) or 1 (defect present)
         expect(countAfter).toBeGreaterThanOrEqual(0);
         expect(countAfter).toBeLessThanOrEqual(1);
       },
@@ -229,7 +209,6 @@ test.describe('Performance & Resilience', () => {
           tags: ['regression'],
         });
 
-        // Attempt to add; error_user may trigger an error on this action
         await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
 
         const cartCount = await inventoryPage.getCartCount();
@@ -239,7 +218,6 @@ test.describe('Performance & Resilience', () => {
           note: 'error_user may fail silently on add-to-cart',
         });
 
-        // Document the actual state — 0 means defect, 1 means it worked
         expect(cartCount).toBeGreaterThanOrEqual(0);
         expect(cartCount).toBeLessThanOrEqual(1);
       },

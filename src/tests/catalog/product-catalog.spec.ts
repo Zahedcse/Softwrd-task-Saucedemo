@@ -10,9 +10,7 @@ import {
 import productsData from '../../fixtures/products.json';
 
 test.describe('Product Catalog', () => {
-  // All catalog tests start authenticated
   test.beforeEach(async ({ authenticatedPage }) => {
-    // authenticatedPage fixture handles login; page is ready on /inventory.html
   });
 
   test.describe('Product Listing', () => {
@@ -47,7 +45,6 @@ test.describe('Product Catalog', () => {
         expect(names).toHaveLength(EXPECTED_PRODUCT_COUNT);
 
         const expectedNames = productsData.expectedProducts.map((p) => p.name);
-        // Names may be in any order (default sort) — check all are present
         for (const name of expectedNames) {
           expect(names).toContain(name);
         }
@@ -90,7 +87,6 @@ test.describe('Product Catalog', () => {
 
         for (const src of srcs) {
           expect(src.length).toBeGreaterThan(0);
-          // Should not be a 404/broken image placeholder
           expect(src).not.toContain('sl-404');
         }
       },
@@ -183,7 +179,6 @@ test.describe('Product Catalog', () => {
           tags: ['regression'],
         });
 
-        // Sort A→Z then switch to Z→A
         await inventoryPage.sortBy(SORT_OPTIONS.NAME_A_Z);
         const azNames = await inventoryPage.getItemNames();
         expect(azNames).toEqual(productsData.sortedNameAZ);
@@ -207,7 +202,6 @@ test.describe('Product Catalog', () => {
           tags: ['regression'],
         });
 
-        // Re-login as problem_user for this test
         await loginPage.goto();
         await loginPage.loginAndWaitForInventory(
           envConfig.users.problem.username,
@@ -217,14 +211,10 @@ test.describe('Product Catalog', () => {
         const srcs = await inventoryPage.getItemImageSrcs();
         await attachJson('problem_user image srcs', srcs);
 
-        // problem_user: all images point to the same broken placeholder
         const uniqueSrcs = new Set(srcs);
 
-        // Document the defect: all 6 images resolve to the same src (the 404 image)
-        // A healthy catalogue has 6 unique image sources
         const hasImageDefect = uniqueSrcs.size < EXPECTED_PRODUCT_COUNT;
         if (hasImageDefect) {
-          // Verify they point to the known broken image src
           const brokenSrc = productsData.problemUserImageSrc;
           const allBroken = srcs.every((src) => src.includes('sl-404') || src === brokenSrc);
           expect(
@@ -251,7 +241,6 @@ test.describe('Product Catalog', () => {
 
         await attachJson('standard_user image srcs', srcs);
 
-        // Each product should have a unique image
         expect(uniqueSrcs.size).toBe(EXPECTED_PRODUCT_COUNT);
       },
     );

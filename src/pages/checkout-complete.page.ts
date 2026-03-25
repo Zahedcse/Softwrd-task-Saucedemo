@@ -3,9 +3,6 @@ import { allure } from 'allure-playwright';
 import { BasePage } from './base.page';
 import { APP_ROUTES, CHECKOUT_COMPLETE } from '../config/test.config';
 
-/**
- * CheckoutCompletePage — order confirmation at /checkout-complete.html
- */
 export class CheckoutCompletePage extends BasePage {
   readonly completeHeader: Locator;
   readonly completeText: Locator;
@@ -20,7 +17,6 @@ export class CheckoutCompletePage extends BasePage {
     this.backHomeButton = page.getByTestId('back-to-products');
   }
 
-  /** Assert all confirmation screen elements are present and correct. */
   async assertOrderConfirmed(): Promise<void> {
     await allure.step('Assert order confirmation screen', async () => {
       await expect(this.completeHeader).toHaveText(CHECKOUT_COMPLETE.HEADER);
@@ -30,7 +26,6 @@ export class CheckoutCompletePage extends BasePage {
     });
   }
 
-  /** Click Back Home and wait for inventory to load. */
   async goBackHome(): Promise<void> {
     await allure.step('Click Back Home', async () => {
       await this.backHomeButton.click();
@@ -38,7 +33,6 @@ export class CheckoutCompletePage extends BasePage {
     });
   }
 
-  /** Assert the checkout complete page is shown. */
   async assertOnCompletePage(): Promise<void> {
     await expect(this.page).toHaveURL(
       new RegExp(APP_ROUTES.CHECKOUT_COMPLETE.replace(/\//g, '\\/')),

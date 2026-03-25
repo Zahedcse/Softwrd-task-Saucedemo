@@ -87,7 +87,6 @@ test.describe('Authentication', () => {
           tags: ['regression'],
         });
 
-        // Empty username, valid password
         const emptyUsername = usersData.invalidCredentials.find(
           (c) => c.description === 'Empty username',
         )!;
@@ -127,7 +126,6 @@ test.describe('Authentication', () => {
         });
 
         await loginPage.login('', '');
-        // SauceDemo validates username first
         await loginPage.assertErrorMessage(ERROR_MESSAGES.LOGIN.MISSING_USERNAME);
       },
     );
@@ -148,7 +146,6 @@ test.describe('Authentication', () => {
         )!;
         await loginPage.login(sqlPayload.username, sqlPayload.password);
 
-        // Must not navigate to inventory — stays on login page with error
         await loginPage.assertOnLoginPage();
         await loginPage.assertErrorMessage(ERROR_MESSAGES.LOGIN.INVALID_CREDENTIALS);
       },
@@ -230,7 +227,6 @@ test.describe('Authentication', () => {
           tags: ['regression'],
         });
 
-        // Navigate to cart and back — session must be maintained
         await page.goto(APP_ROUTES.CART);
         await expect(page).toHaveURL(new RegExp(APP_ROUTES.CART.replace(/\//g, '\\/')));
 
@@ -269,10 +265,8 @@ test.describe('Authentication', () => {
           tags: ['regression'],
         });
 
-        // Without logging in, navigate directly to inventory
         await page.goto(APP_ROUTES.INVENTORY);
 
-        // SauceDemo redirects to the login page
         await expect(page).toHaveURL(new RegExp(`${APP_ROUTES.HOME.replace('/', '\\/')}$`));
         await expect(page.getByTestId('login-button')).toBeVisible();
       },
@@ -291,10 +285,8 @@ test.describe('Authentication', () => {
 
         await inventoryPage.logout();
 
-        // Attempt to navigate back — should still be on login page
         await inventoryPage.page.goBack();
 
-        // Either stays on login page or SauceDemo redirects back to login
         const url = inventoryPage.page.url();
         const isLoginPage =
           url.endsWith('/') || url.endsWith('/index.html') || !url.includes('inventory');

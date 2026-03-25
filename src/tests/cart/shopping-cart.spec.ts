@@ -5,9 +5,7 @@ import { setAllureMeta } from '../../utils/allure-helpers';
 import { assertCartBadge } from '../../utils/custom-assertions';
 
 test.describe('Shopping Cart', () => {
-  // All cart tests start authenticated on inventory page
   test.beforeEach(async ({ authenticatedPage }) => {
-    // authenticatedPage fixture provides a logged-in session on /inventory.html
   });
 
   test.describe('Add to Cart', () => {
@@ -114,10 +112,8 @@ test.describe('Shopping Cart', () => {
         await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
         await assertCartBadge(inventoryPage.cartBadge, 1);
 
-        // Remove from the inventory page using the Remove button
         await inventoryPage.removeItemFromCart(PRODUCTS.SAUCE_LABS_BACKPACK.removeTestId);
 
-        // Badge should disappear
         await expect(inventoryPage.cartBadge).toBeHidden();
       },
     );
@@ -139,7 +135,6 @@ test.describe('Shopping Cart', () => {
 
         await cartPage.removeItem(PRODUCTS.SAUCE_LABS_BACKPACK.id);
 
-        // Bike Light must still be in cart
         await cartPage.assertItemInCart(PRODUCTS.SAUCE_LABS_BIKE_LIGHT.name);
         await cartPage.assertItemNotInCart(PRODUCTS.SAUCE_LABS_BACKPACK.name);
         expect(await cartPage.getCartItemCount()).toBe(1);
@@ -159,14 +154,12 @@ test.describe('Shopping Cart', () => {
 
         await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
 
-        // After adding, button becomes "Remove"
         await expect(
           page.getByTestId(PRODUCTS.SAUCE_LABS_BACKPACK.removeTestId),
         ).toBeVisible();
 
         await inventoryPage.removeItemFromCart(PRODUCTS.SAUCE_LABS_BACKPACK.removeTestId);
 
-        // After removing, "Add to Cart" reappears
         await expect(
           page.getByTestId(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId),
         ).toBeVisible();
@@ -208,14 +201,11 @@ test.describe('Shopping Cart', () => {
 
         await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
 
-        // Navigate to cart, then back to inventory
         await inventoryPage.goToCart();
         await cartPage.continueShopping();
 
-        // Badge still shows 1
         await assertCartBadge(inventoryPage.cartBadge, 1);
 
-        // Navigate to cart again — item is still there
         await inventoryPage.goToCart();
         await cartPage.assertItemInCart(PRODUCTS.SAUCE_LABS_BACKPACK.name);
       },
@@ -234,11 +224,9 @@ test.describe('Shopping Cart', () => {
 
         await inventoryPage.addItemToCart(PRODUCTS.SAUCE_LABS_BACKPACK.addToCartTestId);
 
-        // Reload the inventory page
         await page.reload();
         await inventoryPage.assertInventoryLoaded();
 
-        // Cart badge should still show the item
         await assertCartBadge(inventoryPage.cartBadge, 1);
 
         await inventoryPage.goToCart();
