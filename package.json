@@ -1,0 +1,36 @@
+{
+  "name": "saucedemo-playwright",
+  "version": "1.0.0",
+  "description": "Production-grade Playwright E2E test framework for SauceDemo",
+  "scripts": {
+    "pretest": "playwright install --with-deps chromium",
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:auth": "playwright test src/tests/auth/",
+    "test:catalog": "playwright test src/tests/catalog/",
+    "test:cart": "playwright test src/tests/cart/",
+    "test:checkout": "playwright test src/tests/checkout/",
+    "test:performance": "playwright test src/tests/performance/",
+    "test:headed": "HEADLESS=false playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "typecheck": "tsc --noEmit",
+    "report:html": "playwright show-report reports/html",
+    "report:allure": "allure generate allure-results --clean -o reports/allure && allure open reports/allure",
+    "allure:serve": "allure serve allure-results",
+    "clean": "rm -rf allure-results reports/html reports/allure test-results"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^25.5.0",
+    "allure-playwright": "^3.0.0",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

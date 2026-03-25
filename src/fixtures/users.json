@@ -1,0 +1,48 @@
+{
+  "validUsers": [
+    {
+      "username": "standard_user",
+      "password": "secret_sauce",
+      "description": "Normal user with full access"
+    }
+  ],
+  "invalidCredentials": [
+    {
+      "username": "standard_user",
+      "password": "wrong_password",
+      "description": "Wrong password"
+    },
+    {
+      "username": "unknown_user",
+      "password": "secret_sauce",
+      "description": "Unknown username"
+    },
+    {
+      "username": "",
+      "password": "secret_sauce",
+      "description": "Empty username"
+    },
+    {
+      "username": "standard_user",
+      "password": "",
+      "description": "Empty password"
+    },
+    {
+      "username": "",
+      "password": "",
+      "description": "Both fields empty"
+    }
+  ],
+  "securityPayloads": [
+    {
+      "username": "' OR '1'='1",
+      "password": "anything",
+      "description": "SQL injection in username"
+    },
+    {
+      "username": "<script>alert(1)</script>",
+      "password": "anything",
+      "description": "XSS attempt in username"
+    }
+  ]
+}
