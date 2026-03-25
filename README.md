@@ -1,6 +1,6 @@
 # SauceDemo — Playwright E2E Test Framework
 
-[![Playwright Tests](https://github.com/zahedcse/saucedemo-playwright/actions/workflows/ci.yml/badge.svg)](https://github.com/zahedcse/saucedemo-playwright/actions/workflows/ci.yml)
+[![Playwright Tests](https://github.com/Zahedcse/Softwrd-task-Saucedemo/actions/workflows/ci.yml/badge.svg)](https://github.com/Zahedcse/Softwrd-task-Saucedemo/actions/workflows/ci.yml)
 
 Production-grade end-to-end test automation framework for [SauceDemo](https://www.saucedemo.com), built with **Playwright** + **TypeScript**.
 
