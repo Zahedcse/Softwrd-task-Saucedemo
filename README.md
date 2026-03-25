@@ -32,19 +32,11 @@ Production-grade end-to-end test automation framework for [SauceDemo](https://ww
 
 ### Why Playwright over the alternatives?
 
-| Tool | Reason considered | Reason not chosen |
-|------|-------------------|-------------------|
-| **Selenium + Java** | Mature, widely adopted | Verbose boilerplate, no built-in waiting, requires WebDriver management |
-| **Cypress** | Great DX, auto-wait | No native multi-browser support (Firefox/WebKit via plugins only), no cross-origin iframes, Node 18+ breaking changes |
-| **WebdriverIO** | Flexible, good ecosystem | More configuration overhead; Playwright has better built-in waiting and trace tooling |
-| **Playwright** ✅ | Built-in auto-wait, cross-browser, Trace Viewer, network interception, TypeScript-first | — |
+After evaluating the usual suspects — Selenium, Cypress, and WebdriverIO — Playwright was the clear choice for this project. Selenium's verbosity and reliance on explicit waits adds unnecessary complexity for a modern web app like SauceDemo. Cypress has a great developer experience but its lack of native multi-browser support and cross-origin iframe limitations make it unsuitable for a cross-browser test suite. WebdriverIO is capable but carries more configuration overhead than the task warrants.
 
-**Key Playwright advantages used in this framework:**
-- `getByTestId()` with configurable `testIdAttribute` — no CSS/XPath fragility
-- Smart auto-wait on every action (no `Thread.sleep`, no hardcoded delays)
-- Built-in `screenshot`, `video`, and `trace` capture on failure
-- Native parallel execution with `fullyParallel: true`
-- `test.extend()` for clean dependency-injected fixtures
+Playwright hits the right balance: built-in auto-wait on every action eliminates flaky sleep calls entirely, TypeScript-first support catches selector and data type bugs at compile time, and the Trace Viewer makes debugging CI failures straightforward without needing to reproduce them locally. The `test.extend()` fixture system gave us clean dependency injection for the Page Object layer, and the native browser matrix (Chromium, Firefox, WebKit) meant cross-browser coverage required no extra tooling.
+
+That's why I chose Playwright.
 
 ---
 
