@@ -1,9 +1,0 @@
-{
-  "submittedData": {
-    "firstName": "Jane",
-    "lastName": "Doe",
-    "postalCode": "10001"
-  },
-  "resultUrl": "https://www.saucedemo.com/checkout-step-two.html",
-  "note": "error_user is expected to fail on checkout form submission"
-}
