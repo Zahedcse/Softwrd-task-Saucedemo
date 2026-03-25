@@ -112,8 +112,8 @@ Every page object action wraps its body in `allure.step()`, producing a readable
 ### Quick Start — two commands from a clean clone
 
 ```bash
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/saucedemo-playwright.git
-cd saucedemo-playwright
+git clone https://github.com/Zahedcse/Softwrd-task-Saucedemo.git
+cd Softwrd-task-Saucedemo
 npm ci          # install all dependencies
 npm test        # installs Chromium automatically, then runs all 55 tests
 ```
@@ -195,10 +195,6 @@ npm test
 2. Select a workflow run
 3. Scroll to **Artifacts** section
 4. Download `html-report-chromium`, `allure-report-merged`, or `test-artifacts-*`
-
-**Live Allure report (main branch):**
-Published to GitHub Pages after each successful push to `main`:
-`https://<YOUR_GITHUB_USERNAME>.github.io/saucedemo-playwright/allure-report/`
 
 ---
 
