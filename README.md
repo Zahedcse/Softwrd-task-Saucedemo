@@ -1,6 +1,9 @@
 # SauceDemo — Playwright E2E Test Framework
 
 [![Playwright Tests](https://github.com/Zahedcse/Softwrd-task-Saucedemo/actions/workflows/ci.yml/badge.svg)](https://github.com/Zahedcse/Softwrd-task-Saucedemo/actions/workflows/ci.yml)
+[![Allure Report](https://img.shields.io/badge/Allure%20Report-Live-blue)](https://zahedcse.github.io/Softwrd-task-Saucedemo/allure-report/)
+
+> **[View Latest Test Report](https://zahedcse.github.io/Softwrd-task-Saucedemo/allure-report/)**
 
 Production-grade end-to-end test automation framework for [SauceDemo](https://www.saucedemo.com), built with **Playwright** + **TypeScript**.
 
